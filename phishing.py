@@ -3,7 +3,12 @@ import time
 from colorama import Fore
 from re import search
 from os.path import isfile
-import requests
+import requests,sys
+try:
+    import colorama,requests
+except ImportError:
+    os.system('pip3 install colorma')
+    os.system('pip3 install requests')
 def get_ngrok_url():
     global a
     url = "http://localhost:4040/api/tunnels"
@@ -19,9 +24,11 @@ try:
 
 except:
     pass
-try:
-    os.system('ngrok > /dev/null 2>&1 & ')
-except:
+exit_code = os.system('command -v ngrok > /dev/null 2>&1')
+if exit_code == 0:
+    pass
+else:
+
     os.system ('clear')
     print ('\033[96m [✓] Downloading Ngrok File.......')
     os.system("curl https://raw.githubusercontent.com/ITSN0B1T4/ngrok/main/ngrok --output /data/data/com.termux/files/usr/bin/ngrok")
