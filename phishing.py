@@ -35,7 +35,7 @@ else:
     os.system ("chmod +x /data/data/com.termux/files/usr/bin/ngrok")
     print("First Singup The https://ngrok.com/ and get the authtoken ")
     token = input("Please enter key only \nEnter authtoken: ")
-    os.system(f"ngrok config add-authtoken {token}")
+    os.system(f"ngrok authtoken {token}")
 
 os.system("ngrok http 5555 > /dev/null 2>&1 &")
 time.sleep(3)
